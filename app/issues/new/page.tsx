@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 
 function newIssuePage() {
@@ -33,12 +34,12 @@ function newIssuePage() {
         }
       })}>
         <TextField.Root placeholder='Title' {...register('title')} />
-        { errors.title && <Text as='p' color='red' >{errors.title?.message}</Text>}
+        <ErrorMessage >{errors.title?.message}</ErrorMessage>
         <Controller
           name='description'
           control={control}
           render={({ field }) => <SimpleMDE placeholder='Description'{...field} />} />
-                  { errors.description && <Text as='p' color='red' >{errors.description?.message}</Text>}
+        <ErrorMessage >{errors.description?.message}</ErrorMessage>
 
 
 
