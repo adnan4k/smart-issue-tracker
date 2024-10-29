@@ -21,24 +21,25 @@ function newIssuePage() {
   });
   const router = useRouter()
   const [error, setError] = useState('');
-  const [isSubmitting,setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsSubmitting(true)
+      const response = await axios.post('/api/issues', data)
+      setIsSubmitting(false)
+      router.push('/issues')
+
+    } catch (error) {
+      setIsSubmitting(false)
+
+      setError('unExpected error')
+    }
+  })
   return (
     <div className='max-w-xl'>
 
 
-      <form className=' space-y-3' onSubmit={handleSubmit(async (data) => {
-        try {
-          setIsSubmitting(true)
-          const response = await axios.post('/api/issues', data)
-          setIsSubmitting(false)
-          router.push('/issues')
-
-        } catch (error) {
-          setIsSubmitting(false)
-
-          setError('unExpected error')
-        }
-      })}>
+      <form className=' space-y-3' onSubmit={ onSubmit}>
         <TextField.Root placeholder='Title' {...register('title')} />
         <ErrorMessage >{errors.title?.message}</ErrorMessage>
         <Controller
